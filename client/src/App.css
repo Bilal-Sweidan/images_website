@@ -1,0 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a,button,input,img {
+    cursor: url(https://cdn.visily.ai/app/production/1717457417307/static/Pointer-2a769ff1.svg), auto;
+}

@@ -1,0 +1,26 @@
+.main-header{
+
+    div:nth-child(2){
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        ul{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            // justify-content: space-between;
+            li{
+                margin-right: 10px;
+                a{
+                    color: white;
+                    text-decoration: none;
+                    text-transform: capitalize;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+.display-section{
+    margin-top: 65px;
+}
