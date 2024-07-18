@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 import './Home.scss'
 import axios from 'axios'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, lazy } from 'react';
 
 function Home() {
     const [data, setData] = useState([])
@@ -16,7 +16,6 @@ function Home() {
         document.querySelector('.status').classList.toggle('d-none')
 
     }, [])
-
 
     function next_images() {
         const imagesLenght = data.length
@@ -35,19 +34,19 @@ function Home() {
         console.log(data);
     }
 
-    function search(e){
+    function search(e) {
         const form = e.target
         const formData = new FormData(form)
-        const formJson =  Object.fromEntries(formData.entries());
-        axios.post('http://localhost:4000/search',formJson)
-        .then(res => {
-            if(res.data){
-                setData(prevItems => [
-                    ...res.data
-                ])
-                console.log(res.data)
-            }
-        })
+        const formJson = Object.fromEntries(formData.entries());
+        axios.post('http://localhost:4000/search', formJson)
+            .then(res => {
+                if (res.data) {
+                    setData(prevItems => [
+                        ...res.data
+                    ])
+                    console.log(res.data)
+                }
+            })
     }
 
     return (
@@ -74,15 +73,15 @@ function Home() {
                     </div>
                 </section>
                 <header className='filter'>
-                <form action="" method="dialog" onSubmit={search}>
-                        <input type="submit" placeholder='search' className='btn btn-primary'/>
+                    <form action="" method="dialog" onSubmit={search}>
+                        <input type="submit" placeholder='search' className='btn btn-primary' />
                         <input type="search" name="searchWord" className='form-control' id="" />
                     </form>
                 </header>
                 <section className='images-section h-100'>
                     {data.map(data => (
                         <a href='#' className='link-img'>
-                            <img src={require(`../images/uploaded_images/${data.file_name}`)} loading='lazy' alt="" />
+                            <img src={require(`../images/uploaded_images/${data.file_name}`)}  alt="" />
                             <div className='download-img-div'>
                                 <a href={require(`../images/uploaded_images/${data.file_name}`)} className='btn btn-primary' target='_blank' download>
                                     Donwload
@@ -95,9 +94,6 @@ function Home() {
                     <nav aria-label="Page navigation example ">
                         <ul className="pagination">
                             <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                            {/* <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li> */}
                             <li className="page-item" ><a className="page-link" onClick={next_images}>Next</a></li>
                         </ul>
                         <p className='status text-center d-none text-transform-capitalize'>no more pictures</p>
