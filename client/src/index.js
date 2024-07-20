@@ -2,16 +2,64 @@ import React  from 'react';
 import ReactDOM from 'react-dom/client';
 
 import 'bootstrap/dist/css/bootstrap.css';
-
-
 import './index.css';
-import App from './App.jsx';
-
 import reportWebVitals from './reportWebVitals.js';
+
+// views
+import Home from './views/Home'
+import Sign_in from './views/signIn';
+import Register from './views/Register'
+import Admin from './views/Admin'
+import User from './views/User'
+
+// child componenets
+import AddImages from "./components/Admin-AddImages";
+import User_Home from "./components/User-Home";
+import Upload_Image from "./components/Upload-Image";
+
+import { createBrowserRouter,RouterProvider } from 'react-router-dom';
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: <Home/>
+  },
+  {
+    path:'/sign-in',
+    element:<Sign_in />
+  },
+  {
+    path: '/Register',
+    element: <Register/>
+  },
+  {
+    path:'/Admin',
+    element: <Admin/>,
+    children: [
+      {
+        path: 'add-images',
+        element: <AddImages/>
+      }
+    ]
+  },
+  {
+    path: '/User',
+    element: <User/>,
+    children: [
+      {
+        path: '/User',
+        element: <User_Home/>,
+      },
+      {
+        path: "upload-image",
+        element: <Upload_Image/>
+      }
+    ]
+  }
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <App />
+  <RouterProvider router={router}/>
   // <React.StrictMode>
   // </React.StrictMode>
 );

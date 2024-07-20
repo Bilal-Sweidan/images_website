@@ -1,6 +1,7 @@
 import './Admin.scss'
 import { Link,Outlet } from 'react-router-dom'
-export default function Admin() {
+import React from 'react'
+function Admin() {
 
     return (
         <div className="main-div">
@@ -21,3 +22,5 @@ export default function Admin() {
         </div>
     )
 }
+
+export default React.memo(Admin)

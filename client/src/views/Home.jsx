@@ -3,10 +3,11 @@ import { Link, Outlet } from 'react-router-dom';
 
 import './Home.scss'
 import axios from 'axios'
-import React, { useState, useEffect, useMemo, lazy } from 'react';
+import React, { useState, useEffect, useMemo, lazy,Suspense } from 'react';
 
 function Home() {
     const [data, setData] = useState([])
+    let moreImage = true
     useEffect(() => {
         axios.get('http://localhost:4000/')
             .then(res => {
@@ -28,7 +29,8 @@ function Home() {
                     ]);
                 } else {
                     document.querySelector('.pagination').style.visibility = "hidden"
-                    document.querySelector('.status').classList.toggle('d-none')
+                    // document.querySelector('.status').classList.toggle('d-none')
+                    moreImage = false
                 }
             })
         console.log(data);
@@ -50,7 +52,7 @@ function Home() {
     }
 
     return (
-        <div className="App" >
+        <div className="App" onLoad={console.log("loaded")}>
             <header className='main-header'>
                 <div className="logo-div">
                     <h3 className='p-0 m-0'><span>i</span>magesWorld</h3>
@@ -79,16 +81,18 @@ function Home() {
                     </form>
                 </header>
                 <section className='images-section h-100'>
-                    {data.map(data => (
-                        <a href='#' className='link-img'>
-                            <img src={require(`../images/uploaded_images/${data.file_name}`)}  alt="" />
-                            <div className='download-img-div'>
-                                <a href={require(`../images/uploaded_images/${data.file_name}`)} className='btn btn-primary' target='_blank' download>
-                                    Donwload
-                                </a>
-                            </div>
-                        </a>
-                    ))}
+                    <Suspense fallback={() => <h2>loading...</h2>}>
+                        {data.map(data => (
+                            <a href='#' className='link-img' key={data._id}>
+                                <img src={require(`../images/uploaded_images/${data.file_name}`)}  alt="" />
+                                <div className='download-img-div'>
+                                    <Link href={require(`../images/uploaded_images/${data.file_name}`)} className='btn btn-primary' target='_blank' download>
+                                        Donwload
+                                    </Link>
+                                </div>
+                            </a>
+                        ))}
+                    </Suspense>
                 </section>
                 <footer className='images-footer'>
                     <nav aria-label="Page navigation example ">
@@ -96,7 +100,7 @@ function Home() {
                             <li className="page-item"><a className="page-link" href="#">Previous</a></li>
                             <li className="page-item" ><a className="page-link" onClick={next_images}>Next</a></li>
                         </ul>
-                        <p className='status text-center d-none text-transform-capitalize'>no more pictures</p>
+                        {moreImage ? (<p className='status text-center text-transform-capitalize'>no more pictures</p>):(<p className='status text-center d-none text-transform-capitalize'></p>)}
                     </nav>
                 </footer>
             </section>
@@ -113,4 +117,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default React.memo(Home);
