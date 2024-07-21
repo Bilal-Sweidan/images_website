@@ -1,4 +1,3 @@
-import imagesArray from '../functions/ImportImages';
 import { Link, Outlet } from 'react-router-dom';
 
 import './Home.scss'
@@ -84,9 +83,9 @@ function Home() {
                     <Suspense fallback={() => <h2>loading...</h2>}>
                         {data.map(data => (
                             <a href='#' className='link-img' key={data._id}>
-                                <img src={require(`../images/uploaded_images/${data.file_name}`)}  alt="" />
+                                <img src={new URL(`../images/uploaded_images/${data.file_name}`, import.meta.url).href}  alt="" />
                                 <div className='download-img-div'>
-                                    <Link href={require(`../images/uploaded_images/${data.file_name}`)} className='btn btn-primary' target='_blank' download>
+                                    <Link href={new URL(`../images/uploaded_images/${data.file_name}`, import.meta.url).href} className='btn btn-primary' target='_blank' download>
                                         Donwload
                                     </Link>
                                 </div>

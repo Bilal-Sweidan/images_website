@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react';
-
-export default function User_Home(){
+import { useState, useEffect,Suspense } from 'react';
+import { Link } from 'react-router-dom';
+export default function User_Home() {
     const [data, setData] = useState([])
     useEffect(() => {
         axios.get('http://localhost:4000/')
@@ -65,16 +65,18 @@ export default function User_Home(){
                     </form>
                 </header>
                 <section className='images-section h-100'>
-                    {data.map(data => (
-                        <a href='#' className='link-img'>
-                            <img src={require(`../images/uploaded_images/${data.file_name}`)} loading='lazy' alt="" />
-                            <div className='download-img-div'>
-                                <a href={require(`../images/uploaded_images/${data.file_name}`)} className='btn btn-primary' target='_blank' download>
-                                    Donwload
-                                </a>
-                            </div>
-                        </a>
-                    ))}
+                    <Suspense fallback={() => <h2>loading...</h2>}>
+                        {data.map(data => (
+                            <a href='#' className='link-img' key={data._id}>
+                                <img src={new URL(`../images/uploaded_images/${data.file_name}`, import.meta.url).href} alt="" />
+                                <div className='download-img-div'>
+                                    <Link href={new URL(`../images/uploaded_images/${data.file_name}`, import.meta.url).href} className='btn btn-primary' target='_blank' download>
+                                        Donwload
+                                    </Link>
+                                </div>
+                            </a>
+                        ))}
+                    </Suspense>
                 </section>
                 <footer className='images-footer'>
                     <nav aria-label="Page navigation example ">

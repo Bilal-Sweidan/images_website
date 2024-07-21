@@ -1,4 +1,3 @@
-import imagesArray from '../functions/ImportImages';
 import { Link, Outlet } from 'react-router-dom';
 
 import './Home.scss'
